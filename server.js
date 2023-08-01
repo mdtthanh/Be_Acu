@@ -1,15 +1,21 @@
+const fs = require("fs");
+const path = require("path");
+const db = JSON.parse(fs.readFileSync(path.join(__dirname, "db.json")));
+const router = jsonServer.router(db);
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const jsonServer = require('json-server')
 const jsonServerMiddlewares = jsonServer.defaults()
 const server = jsonServer.create()
-const router = jsonServer.router('db.json')
-
+const cors = require('cors');
 server.use(bodyParser.json({ extended: true }));
 
 const secretKey = "thisIsSecretKey";
 
-const port = 3000;
+server.use(cors({ origin: 'https://test-react-lac.vercel.app' }));
+
+
+const port = 4001;
 const users = [
     { id: 1, username: 'admin', password: 'admin' },
     { id: 2, username: 'test', password: 'test' },
